@@ -1,0 +1,120 @@
+/*
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
+package pontoonexample;
+import java.util.*;
+/**
+*
+* @author roger
+*/
+public class PontoonExample {
+
+/**
+* @param args the command line arguments
+*/
+    public static void main(String[] args) {
+
+        Scanner in = new Scanner(System.in);
+
+        int bankerScore = 0;
+        int userScore = 0;
+        int userTotal = 0;
+        int bankerTotal = 0;
+
+        //Initial deal
+        for (int i = 0; i < 2; i++){
+            int userCard = (int) (Math.random()*10 + 1);
+            System.out.println("User card number " + (i+1) + " has value " + userCard);
+            userScore += userCard;
+
+            int bankerCard = (int) (Math.random()*10 + 1); 
+            /System.out.println("Banker card number " + (i+1) + " has value " + bankerCard);
+            bankerScore += bankerCard;
+
+        }
+        int userNumber = 2;
+        int bankerNumber = 2;
+
+        System.out.println("--------------------------------");
+        System.out.println("User initial total is " + userScore);
+        System.out.println("Banker initial total is " + bankerScore);
+        System.out.println("--------------------------------");
+
+        boolean userWin = false;
+        boolean busted = false;
+        boolean stick = false;
+
+        //User plays -----------------------------------------------------
+        do{
+            Scanner sc = new Scanner(System.in);
+            System.out.print("Do you want another card (Y/N)? ");
+
+            String userResponse = sc.next().toUpperCase();
+
+            if (userResponse.equals("Y")){
+
+                int userCard = (int) (Math.random()*10 + 1);
+                userScore += userCard;
+                userNumber++;
+                System.out.println("User card number " + userNumber + " has value " + userCard);
+                System.out.println("User total is " + userScore);
+
+            } else if (userResponse.equals("N")) {
+                System.out.println("User sticks on " + userScore + "\n");
+                userTotal = userScore;
+                stick = true; 
+            }
+
+            if (userScore == 21){
+                userWin = true;
+            }
+
+            if (userScore > 21){
+                busted = true;
+                System.out.println("You are bust");
+            }
+
+
+            if (userNumber == 5){
+                 userWin = true;
+                 System.out.println("User has drawn 5 cards. You win!"); 
+            }
+
+        } while(!busted && userNumber < 5 && !stick);
+
+        //Banker plays --------------------------------------------------
+
+        if (bankerScore == 21 && !userWin){
+            System.out.println("Bank wins with a score of 21");
+        }
+
+        if (bankerScore >= userTotal && bankerScore < 21 && !userWin){
+            System.out.println("User score is " + userScore);
+            System.out.println("Bank wins with a score of " + bankerScore);
+        }
+
+        while (bankerScore < userTotal && bankerScore < 21 && !userWin){
+
+            int bankerCard = (int) (Math.random()*10 + 1);
+            bankerScore += bankerCard;
+            bankerNumber++;
+            System.out.println("Banker card number " + bankerNumber + " has value " + bankerCard);
+            System.out.println("Banker total is " + bankerScore);
+
+            if (bankerScore > userTotal && bankerScore <= 21){
+                System.out.println("User score is " + userTotal);
+                System.out.println("Bank wins");
+            }
+
+            if (bankerScore > 21){
+                System.out.println("Bank is busted");
+            }
+
+        } 
+
+
+    }
+
+}
